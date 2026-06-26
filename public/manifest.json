@@ -1,0 +1,36 @@
+{
+  "name": "Coralum Care",
+  "short_name": "Coralum",
+  "description": "Digital health platform for wearable device integration",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#059669",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
+  "categories": ["health", "medical"],
+  "shortcuts": [
+    {
+      "name": "Connect Device",
+      "short_name": "Connect",
+      "description": "Quickly connect your wearable device",
+      "url": "/onboarding",
+      "icons": []
+    }
+  ]
+}
