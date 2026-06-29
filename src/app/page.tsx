@@ -19,10 +19,10 @@ export default function Home() {
             </div>
             <div className="flex flex-wrap gap-4">
               <Link
-                href="/onboarding"
+                href="/signup"
                 className="rounded-full bg-emerald-600 px-6 py-3 font-medium text-white transition hover:bg-emerald-700"
               >
-                Enroll Now
+                Sign Up
               </Link>
               <a
                 href="#learn-more"
