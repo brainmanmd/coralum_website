@@ -27,6 +27,15 @@ describe("wearable provider placeholders", () => {
     );
   });
 
+  it("routes fitbit and google-fit through their separate OAuth endpoints", () => {
+    const catalog = getWearableProviderCatalog();
+    const fitbitProvider = catalog.find((provider) => provider.id === "fitbit");
+    const googleProvider = catalog.find((provider) => provider.id === "google-fit");
+
+    expect(fitbitProvider?.connectRoute).toBe("/api/fitbit/connect");
+    expect(googleProvider?.connectRoute).toBe("/api/google/connect");
+  });
+
   it("fetches multiple provider summaries in a single pass", async () => {
     const summaries = await fetchWearableSummaries(["oura", "whoop"]);
 

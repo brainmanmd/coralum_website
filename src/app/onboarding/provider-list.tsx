@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import type { WearableProvider } from "@/lib/wearables/types";
 import type { WearableProviderMetadata } from "@/lib/wearables/providers";
 import type { ProviderIntegrationSkeleton } from "@/lib/wearables/integration";
@@ -18,15 +18,22 @@ interface OnboardingProviderListProps {
 export function OnboardingProviderList({ providers, initialConnected }: OnboardingProviderListProps) {
   const [connectedProviders, setConnectedProviders] = useState<WearableProvider[]>(initialConnected);
 
+  const providerEntries = useMemo(
+    () =>
+      providers.map((provider) => ({
+        ...provider,
+        isConnected: connectedProviders.includes(provider.id),
+      })),
+    [connectedProviders, providers],
+  );
+
   const handleConnect = (provider: WearableProvider) => {
     setConnectedProviders((current) => (current.includes(provider) ? current : [...current, provider]));
   };
 
   return (
     <div className="mt-6 space-y-3">
-      {providers.map((provider) => {
-        const isConnected = connectedProviders.includes(provider.id);
-
+      {providerEntries.map((provider) => {
         return (
           <div key={provider.id} className="rounded-2xl border border-slate-200 bg-white p-4">
             <div className="flex items-center justify-between gap-4">
@@ -36,10 +43,10 @@ export function OnboardingProviderList({ providers, initialConnected }: Onboardi
               </div>
               <div className="flex items-center gap-3">
                 <span
-                  className={`inline-flex h-3 w-3 rounded-full ${isConnected ? "bg-emerald-500" : "bg-slate-300"}`}
+                  className={`inline-flex h-3 w-3 rounded-full ${provider.isConnected ? "bg-emerald-500" : "bg-slate-300"}`}
                 />
-                <span className={`text-sm font-medium ${isConnected ? "text-emerald-700" : "text-slate-500"}`}>
-                  {isConnected ? "Connected" : "Not connected"}
+                <span className={`text-sm font-medium ${provider.isConnected ? "text-emerald-700" : "text-slate-500"}`}>
+                  {provider.isConnected ? "Connected" : "Not connected"}
                 </span>
               </div>
             </div>
@@ -59,7 +66,7 @@ export function OnboardingProviderList({ providers, initialConnected }: Onboardi
                 providerId={provider.id}
                 providerLabel={provider.label}
                 connectRoute={provider.connectRoute}
-                isConnected={isConnected}
+                isConnected={provider.isConnected}
                 onConnect={handleConnect}
               />
             </div>
