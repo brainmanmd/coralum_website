@@ -3,8 +3,8 @@ import { defineConfig } from 'drizzle-kit';
 export default defineConfig({
   schema: './src/lib/db/schema.ts',
   out: './drizzle',
-  driver: 'pg',
+  dialect: 'postgresql',
   dbCredentials: {
-    connectionString: process.env.POSTGRES_URL_NON_POOLING || '',
+    url: process.env.POSTGRES_URL_NON_POOLING ?? (() => { throw new Error('POSTGRES_URL_NON_POOLING is not set'); })(),
   },
 });
