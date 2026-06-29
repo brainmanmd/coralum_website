@@ -112,12 +112,13 @@ export default function SignupForm() {
           id="password"
           name="password"
           required
+          aria-describedby="password-hint"
           value={formData.password}
           onChange={handleChange}
           className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 placeholder-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
           placeholder="••••••••"
         />
-        <p className="mt-2 text-sm text-slate-500">
+        <p id="password-hint" className="mt-2 text-sm text-slate-500">
           8+ characters with uppercase, number, and special character
         </p>
       </div>
