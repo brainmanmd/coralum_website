@@ -1,0 +1,38 @@
+import Image from 'next/image';
+import Link from 'next/link';
+import { LinkedInBadge } from './icons';
+
+export default function Footer() {
+  return (
+    <footer className="border-t border-coralum-navy/10">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-6 px-6 py-10">
+        <Image
+          src="/images/coralum-logo.png"
+          alt="Coralum"
+          width={31}
+          height={28}
+          className="opacity-60"
+        />
+
+        <div className="flex items-center gap-7">
+          <Link href="/privacy" className="font-body text-sm text-coralum-slate hover:text-coralum-navy">
+            Privacy
+          </Link>
+          <Link href="/terms" className="font-body text-sm text-coralum-slate hover:text-coralum-navy">
+            Terms
+          </Link>
+          <Link href="/contact" className="font-body text-sm text-coralum-slate hover:text-coralum-navy">
+            Contact
+          </Link>
+          <a href="#" aria-label="Coralum on LinkedIn">
+            <LinkedInBadge />
+          </a>
+        </div>
+
+        <p className="font-label text-[10px] text-coralum-slate">
+          © 2026 Coralum · Parkinson&apos;s Care Platform
+        </p>
+      </div>
+    </footer>
+  );
+}

@@ -21,7 +21,7 @@ function isRateLimited(key: string, maxRequests: number, windowMs: number): bool
   return false;
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   if (
     request.nextUrl.pathname === '/api/auth/signup' &&
     request.method === 'POST'
@@ -36,9 +36,23 @@ export function middleware(request: NextRequest) {
     }
   }
 
+  if (
+    request.nextUrl.pathname === '/api/waitlist' &&
+    request.method === 'POST'
+  ) {
+    const key = getRateLimitKey(request);
+
+    if (isRateLimited(key, 5, 60_000)) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        { status: 429 }
+      );
+    }
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/api/auth/signup'],
+  matcher: ['/api/auth/signup', '/api/waitlist'],
 };

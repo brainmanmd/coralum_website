@@ -7,6 +7,7 @@ import {
   timestamp,
   uniqueIndex,
   index,
+  boolean,
 } from 'drizzle-orm/pg-core';
 
 export const users = pgTable(
@@ -38,6 +39,24 @@ export const sessions = pgTable(
   (table) => ({
     userIdIdx: index('idx_sessions_user_id').on(table.userId),
     expiresAtIdx: index('idx_sessions_expires_at').on(table.expiresAt),
+  })
+);
+
+export const waitlistSignups = pgTable(
+  'waitlist_signups',
+  {
+    id: serial('id').primaryKey(),
+    fullName: varchar('full_name', { length: 255 }).notNull(),
+    email: varchar('email', { length: 255 }).notNull(),
+    dateOfBirth: date('date_of_birth').notNull(),
+    zipCode: varchar('zip_code', { length: 20 }).notNull(),
+    insuranceProvider: varchar('insurance_provider', { length: 255 }),
+    contactConsent: boolean('contact_consent').notNull(),
+    betaConsent: boolean('beta_consent').notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  (table) => ({
+    emailIdx: uniqueIndex('idx_waitlist_signups_email').on(table.email),
   })
 );
 

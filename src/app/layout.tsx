@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Lora, DM_Sans, DM_Mono } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -12,7 +12,24 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const lora = Lora({
+  variable: "--font-lora",
+  subsets: ["latin"],
+});
+
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
+  subsets: ["latin"],
+});
+
+const dmMono = DM_Mono({
+  variable: "--font-dm-mono",
+  weight: ["400", "500"],
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
+  metadataBase: new URL("https://coralum.care"),
   title: "Coralum Care - Digital Health Platform",
   description:
     "Connect your wearable devices to Coralum Care for personalized health insights. Track sleep, recovery, and wellness metrics from Oura, Whoop, Fitbit, Apple Health, Google Health, and Samsung Health.",
@@ -66,7 +83,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
         <link rel="canonical" href="https://coralum.care" />
@@ -86,7 +103,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </script>
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} min-h-full antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${lora.variable} ${dmSans.variable} ${dmMono.variable} min-h-full antialiased`}
         suppressHydrationWarning
       >
         {children}

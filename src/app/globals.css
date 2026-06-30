@@ -3,6 +3,14 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Coralum brand palette (from Figma design system) */
+  --color-coralum-cream: #fbf9f7;
+  --color-coralum-navy: #16243b;
+  --color-coralum-slate: #3d5a6b;
+  --color-coralum-blue: #2e8bc0;
+  --color-coralum-sage: #83bca9;
+  --color-coralum-peach: #f0bc94;
 }
 
 @theme inline {
@@ -10,6 +18,16 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-lora);
+  --font-body: var(--font-dm-sans);
+  --font-label: var(--font-dm-mono);
+
+  --color-coralum-cream: var(--color-coralum-cream);
+  --color-coralum-navy: var(--color-coralum-navy);
+  --color-coralum-slate: var(--color-coralum-slate);
+  --color-coralum-blue: var(--color-coralum-blue);
+  --color-coralum-sage: var(--color-coralum-sage);
+  --color-coralum-peach: var(--color-coralum-peach);
 }
 
 @media (prefers-color-scheme: dark) {

@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Don't advertise the framework in response headers
+  poweredByHeader: false,
+
   // Optimize images and third-party scripts
   images: {
     unoptimized: false,
@@ -31,7 +34,6 @@ const nextConfig: NextConfig = {
           },
         ],
       },
-      // Cache static assets aggressively
       {
         source: "/api/:path*",
         headers: [
@@ -41,15 +43,9 @@ const nextConfig: NextConfig = {
           },
         ],
       },
-      {
-        source: "/_next/static/:path*",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
-          },
-        ],
-      },
+      // Note: /_next/static/:path* is NOT overridden here — Next.js already
+      // sets immutable, far-future Cache-Control on hashed build assets, and
+      // a custom override breaks dev-mode behavior (warned at build time).
     ];
   },
 
