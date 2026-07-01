@@ -5,11 +5,11 @@ export default function ForCaregivers() {
   return (
     <section className="border-t border-coralum-navy/10 py-28">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="relative overflow-hidden rounded-2xl bg-coralum-navy px-8 py-16 sm:px-14">
+        <div className="relative overflow-hidden rounded-2xl bg-coralum-navy px-6 py-12 sm:px-14 sm:py-16">
           <div className="pointer-events-none absolute -top-16 right-0 size-64 rounded-full bg-coralum-sage opacity-20 blur-[60px]" />
           <div className="pointer-events-none absolute bottom-0 left-1/3 size-48 rounded-full bg-coralum-peach opacity-15 blur-[50px]" />
 
-          <div className="relative flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
+          <div className="relative flex flex-col items-start gap-6 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
             <div className="max-w-xl">
               <p className="font-label text-xs uppercase tracking-[0.1em] text-coralum-peach">
                 Join the waitlist
@@ -27,7 +27,7 @@ export default function ForCaregivers() {
 
             <Link
               href="/waitlist"
-              className="flex shrink-0 items-center gap-2 rounded-full bg-white px-6 py-3 font-body text-sm font-medium text-coralum-navy transition hover:bg-white/90"
+              className="flex w-full shrink-0 items-center justify-center gap-2 rounded-full bg-white px-6 py-3 font-body text-sm font-medium text-coralum-navy transition hover:bg-white/90 sm:w-auto"
             >
               Join the Waitlist
               <ArrowRightIcon className="size-3.5" />
