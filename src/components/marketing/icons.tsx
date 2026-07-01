@@ -62,6 +62,22 @@ export function UsersIcon({ className }: { className?: string }) {
   );
 }
 
+export function MenuIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 18 18" fill="none" className={className} aria-hidden="true">
+      <path d="M2.25 4.75h13.5M2.25 9h13.5M2.25 13.25h13.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function CloseIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 18 18" fill="none" className={className} aria-hidden="true">
+      <path d="M4 4l10 10M14 4 4 14" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 export function LinkedInBadge({ className }: { className?: string }) {
   return (
     <span

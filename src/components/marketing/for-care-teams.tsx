@@ -7,12 +7,14 @@ const team = [
     name: 'Julian Salazar',
     bio:
       'Stanford Biodesign Innovation Fellow, Product Leader and engineer with a track record of launching digital health solutions and connected medical devices in international markets for chronic disease management, in partnership with start-ups, medtech companies and global pharma like Pfizer and Eli Lilly.',
+    linkedin: 'https://www.linkedin.com/in/juliansalazarg/',
   },
   {
     photo: '/images/team/kevin-cyr.jpg',
     name: 'Kevin Cyr, MD',
     bio:
       'Dr. Kevin Cyr is a Stanford physician and innovator working at the intersection of medicine, venture capital, and digital health. He received his MD from Stanford University, completed his internal medicine residency at Cedars-Sinai Medical Center and has worked as an associate with the Global Bioaccess venture fund.',
+    linkedin: 'https://www.linkedin.com/in/cyrkevin/',
   },
 ];
 
@@ -41,7 +43,13 @@ export default function ForCareTeams() {
               <p className="mt-4 max-w-[270px] font-body text-[13px] leading-relaxed text-coralum-slate">
                 {member.bio}
               </p>
-              <a href="#" aria-label={`${member.name} on LinkedIn`} className="mt-4">
+              <a
+                href={member.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${member.name} on LinkedIn`}
+                className="mt-4"
+              >
                 <LinkedInBadge />
               </a>
             </div>

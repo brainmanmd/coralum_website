@@ -2,8 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { eq } from 'drizzle-orm';
 import { db } from '@/lib/db/client';
 import { waitlistSignups } from '@/lib/db/schema';
-import { validateEmail, validateFullName } from '@/lib/auth/validation';
-import { validateZipCode, validateWaitlistDateOfBirth } from '@/lib/waitlist/validation';
+import {
+  validateEmail,
+  validateFullName,
+  validateZipCode,
+  validateWaitlistDateOfBirth,
+} from '@/lib/waitlist/validation';
 
 // Node.js runtime: drizzle-orm/vercel-postgres needs the pg connection pool,
 // which isn't available on the Edge runtime.
