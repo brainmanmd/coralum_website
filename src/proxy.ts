@@ -23,20 +23,6 @@ function isRateLimited(key: string, maxRequests: number, windowMs: number): bool
 
 export function proxy(request: NextRequest) {
   if (
-    request.nextUrl.pathname === '/api/auth/signup' &&
-    request.method === 'POST'
-  ) {
-    const key = getRateLimitKey(request);
-
-    if (isRateLimited(key, 5, 60_000)) {
-      return NextResponse.json(
-        { error: 'Too many signup attempts. Please try again later.' },
-        { status: 429 }
-      );
-    }
-  }
-
-  if (
     request.nextUrl.pathname === '/api/waitlist' &&
     request.method === 'POST'
   ) {
@@ -54,5 +40,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/api/auth/signup', '/api/waitlist'],
+  matcher: ['/api/waitlist'],
 };
