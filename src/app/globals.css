@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 :root {
+  color-scheme: light;
   --background: #ffffff;
   --foreground: #171717;
 
@@ -28,13 +29,6 @@
   --color-coralum-blue: var(--color-coralum-blue);
   --color-coralum-sage: var(--color-coralum-sage);
   --color-coralum-peach: var(--color-coralum-peach);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
