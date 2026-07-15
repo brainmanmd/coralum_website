@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { SESSION_COOKIE, verifySessionToken } from '@/lib/auth/session';
 
 const rateLimitStore = new Map<string, number[]>();
 
@@ -21,7 +22,7 @@ function isRateLimited(key: string, maxRequests: number, windowMs: number): bool
   return false;
 }
 
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   if (
     request.nextUrl.pathname === '/api/waitlist' &&
     request.method === 'POST'
@@ -36,9 +37,26 @@ export function proxy(request: NextRequest) {
     }
   }
 
+  if (
+    request.nextUrl.pathname.startsWith('/dashboard') ||
+    request.nextUrl.pathname.startsWith('/api/dashboard')
+  ) {
+    const token = request.cookies.get(SESSION_COOKIE)?.value;
+    const session = await verifySessionToken(token);
+
+    if (!session) {
+      if (request.nextUrl.pathname.startsWith('/api/')) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      }
+      const loginUrl = new URL('/login', request.url);
+      loginUrl.searchParams.set('next', request.nextUrl.pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/api/waitlist'],
+  matcher: ['/api/waitlist', '/dashboard/:path*', '/api/dashboard/:path*'],
 };
