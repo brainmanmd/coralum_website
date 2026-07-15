@@ -1,13 +1,15 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { patients, freqToTimesPerDay, type Urgency, type Confidence } from "@/lib/dashboard/patient-review-data";
+import { useRouter } from "next/navigation";
+import { freqToTimesPerDay } from "@/lib/dashboard/patient-review-data";
+import type { QueuePatient, CurrentClinician } from "@/lib/dashboard/queries";
 import { ReasonIcon, MessageIcon, CallIcon, PharmacyIcon } from "./icons";
 import { TimeDomainChart, PsdChart } from "./sensor-charts";
 
 type Phase = "idle" | "leaving" | "entering";
 
-type DecisionKind = "approved" | "deferred" | "rejected";
+type DecisionKind = "approved" | "deferred";
 
 interface Decision {
   label: string;
@@ -31,7 +33,7 @@ const DECISION_MAP: Record<DecisionKind, Decision> = {
     color: "#3F7A5C",
     bg: "#E9F2EC",
     border: "#CBE0D3",
-    sub: "Signed by Dr. Elena Voss · just now",
+    sub: "Signed · just now",
   },
   deferred: {
     label: "Deferred — more information requested",
@@ -41,29 +43,25 @@ const DECISION_MAP: Record<DecisionKind, Decision> = {
     border: "#EFE0C3",
     sub: "Flagged for follow-up · patient will continue current regimen",
   },
-  rejected: {
-    label: "Recommendation declined",
-    mark: "✕",
-    color: "#C2453B",
-    bg: "#FBEDEC",
-    border: "#F2CFCC",
-    sub: "No change made · current regimen retained",
-  },
 };
 
-const URGENCY_STYLE: Record<Urgency, { color: string; bg: string }> = {
+const URGENCY_STYLE = {
   Routine: { color: "#3F7A5C", bg: "#E9F2EC" },
   "Priority review": { color: "#B07A2E", bg: "#FAF1E2" },
   Urgent: { color: "#C2453B", bg: "#FBEDEC" },
-};
+} as const;
 
-const CONFIDENCE_COLOR: Record<Confidence, string> = {
+const CONFIDENCE_COLOR = {
   "High confidence": "#3F7A5C",
   "Moderate confidence": "#B07A2E",
   "Low confidence": "#C2453B",
-};
+} as const;
 
-const DEFER_LABELS = ["2 days", "1 week", "2 weeks"];
+const DEFER_QUICK_OPTIONS = [
+  { label: "2 days", days: 2 },
+  { label: "1 week", days: 7 },
+  { label: "2 weeks", days: 14 },
+];
 const CAL_WEEKDAYS = ["S", "M", "T", "W", "T", "F", "S"];
 
 function formatChange(current: { ld: number; times: number }, rec: Dose) {
@@ -78,6 +76,23 @@ function formatChange(current: { ld: number; times: number }, rec: Dose) {
 
 function formatDate(d: Date) {
   return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+}
+
+function toIsoDate(d: Date) {
+  return d.toISOString().slice(0, 10);
+}
+
+// Module-scope helper (not inline in the component) so this impure Date.now()
+// read is clearly an event-handler-time computation, not a render-time one.
+function isoDateDaysFromNow(days: number): string {
+  return toIsoDate(new Date(Date.now() + days * 24 * 60 * 60 * 1000));
+}
+
+function initialsFromName(name: string): string {
+  const parts = name.split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "";
+  if (parts.length === 1) return parts[0][0].toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
 
 interface CalendarCell {
@@ -113,7 +128,41 @@ function buildCalendar(offset: number): { label: string; cells: CalendarCell[] }
 const pillButton =
   "inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold transition-colors";
 
-export default function PatientReviewDashboard() {
+interface DecisionResult {
+  ok: boolean;
+  error?: string;
+}
+
+async function postDecision(
+  recommendationId: number,
+  action: "approved" | "deferred" | "declined" | "undo",
+  extra?: Record<string, unknown>,
+): Promise<DecisionResult> {
+  try {
+    const response = await fetch(`/api/dashboard/recommendations/${recommendationId}/decision`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action, ...extra }),
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      return { ok: false, error: data.error ?? "Something went wrong" };
+    }
+    return { ok: true };
+  } catch {
+    return { ok: false, error: "Network error — please try again" };
+  }
+}
+
+export default function PatientReviewDashboard({
+  initialQueue,
+  clinician,
+}: {
+  initialQueue: QueuePatient[];
+  clinician: CurrentClinician | null;
+}) {
+  const router = useRouter();
+  const [queue] = useState(initialQueue);
   const [patientIdx, setPatientIdx] = useState(0);
   const [phase, setPhase] = useState<Phase>("idle");
   const [expanded, setExpanded] = useState(false);
@@ -124,12 +173,54 @@ export default function PatientReviewDashboard() {
   const [deferShowCalendar, setDeferShowCalendar] = useState(false);
   const [calMonthOffset, setCalMonthOffset] = useState(0);
   const [declineTipOpen, setDeclineTipOpen] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
 
-  const cur = patients[patientIdx];
-  const [rec, setRec] = useState<Dose>({ ...cur.rec });
-  const [draft, setDraft] = useState<Dose>({ ...cur.rec });
+  const cur = queue.length > 0 ? queue[patientIdx % queue.length] : null;
+  const [rec, setRec] = useState<Dose>(cur ? { ...cur.rec } : { cd: "", ld: "", freq: "three times daily" });
+  const [draft, setDraft] = useState<Dose>(cur ? { ...cur.rec } : { cd: "", ld: "", freq: "three times daily" });
 
   const cal = useMemo(() => buildCalendar(calMonthOffset), [calMonthOffset]);
+
+  const clinicianName = clinician?.fullName ?? "Clinician";
+  const clinicianSpecialty = clinician?.specialty ?? "";
+  const clinicianInitials = initialsFromName(clinicianName);
+
+  async function handleSignOut() {
+    await fetch("/api/auth/logout", { method: "POST" });
+    router.push("/login");
+    router.refresh();
+  }
+
+  if (!cur) {
+    return (
+      <div className="font-body flex min-h-screen flex-col bg-[#F6F5F1] text-[#10243D] antialiased">
+        <header className="flex h-[66px] shrink-0 items-center justify-between border-b border-[#EAE7DE] bg-white px-8">
+          <span className="font-serif text-[22px] font-semibold tracking-[-0.01em] text-[#10243D]">Coralum</span>
+          <div className="flex items-center gap-3">
+            <div className="text-right leading-tight">
+              <div className="text-[13px] font-semibold">{clinicianName}</div>
+              <div className="text-[11px] text-[#8798A8]">{clinicianSpecialty}</div>
+            </div>
+            <button
+              type="button"
+              onClick={handleSignOut}
+              className="text-xs font-semibold text-[#51677C] hover:text-[#10243D]"
+            >
+              Sign out
+            </button>
+          </div>
+        </header>
+        <main className="flex flex-1 items-center justify-center px-8">
+          <div className="rounded-2xl bg-white px-10 py-8 text-center shadow-[0_6px_26px_rgba(16,36,61,0.06)]">
+            <h1 className="font-serif text-xl font-semibold text-[#10243D]">All caught up</h1>
+            <p className="mt-2 text-sm text-[#51677C]">There are no pending medication recommendations to review.</p>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
   const urgencyStyle = URGENCY_STYLE[cur.urgency];
   const confidenceColor = CONFIDENCE_COLOR[cur.confidence];
   const change = formatChange(cur.current, rec);
@@ -146,8 +237,8 @@ export default function PatientReviewDashboard() {
     if (phase !== "idle") return;
     setPhase("leaving");
     setTimeout(() => {
-      const next = (patientIdx + 1) % patients.length;
-      const np = patients[next];
+      const next = (patientIdx + 1) % queue.length;
+      const np = queue[next];
       setPatientIdx(next);
       setRec({ ...np.rec });
       setDraft({ ...np.rec });
@@ -155,9 +246,74 @@ export default function PatientReviewDashboard() {
       setModifying(false);
       setShowTranscript(false);
       setExpanded(false);
+      setApiError(null);
       setPhase("entering");
       setTimeout(() => setPhase("idle"), 40);
     }, 430);
+  }
+
+  async function handleApprove() {
+    setApiError(null);
+    setSubmitting(true);
+    const result = await postDecision(cur!.recommendationId, "approved", { dose: rec });
+    setSubmitting(false);
+    if (!result.ok) {
+      setApiError(result.error ?? "Could not save this decision");
+      return;
+    }
+    setDecision("approved", `Signed by ${clinicianName} · just now`);
+  }
+
+  async function handleDeferQuick(label: string, days: number) {
+    setApiError(null);
+    setSubmitting(true);
+    const deferredUntil = isoDateDaysFromNow(days);
+    const note = `Flagged for follow-up in ${label} · patient will continue current regimen`;
+    const result = await postDecision(cur!.recommendationId, "deferred", { deferredUntil, note });
+    setSubmitting(false);
+    if (!result.ok) {
+      setApiError(result.error ?? "Could not save this decision");
+      return;
+    }
+    setDecision("deferred", note);
+  }
+
+  async function handleDeferDate(date: Date) {
+    setApiError(null);
+    setSubmitting(true);
+    const note = `Flagged for follow-up on ${formatDate(date)} · patient will continue current regimen`;
+    const result = await postDecision(cur!.recommendationId, "deferred", { deferredUntil: toIsoDate(date), note });
+    setSubmitting(false);
+    if (!result.ok) {
+      setApiError(result.error ?? "Could not save this decision");
+      return;
+    }
+    setDecision("deferred", note);
+  }
+
+  async function handleDecline() {
+    if (phase !== "idle" || submitting) return;
+    setApiError(null);
+    setSubmitting(true);
+    const result = await postDecision(cur!.recommendationId, "declined");
+    setSubmitting(false);
+    if (!result.ok) {
+      setApiError(result.error ?? "Could not save this decision");
+      return;
+    }
+    advanceToNextPatient();
+  }
+
+  async function handleUndo() {
+    setApiError(null);
+    setSubmitting(true);
+    const result = await postDecision(cur!.recommendationId, "undo");
+    setSubmitting(false);
+    if (!result.ok) {
+      setApiError(result.error ?? "Could not undo this decision");
+      return;
+    }
+    setDecisionState(null);
   }
 
   const swapStyle: React.CSSProperties =
@@ -168,10 +324,9 @@ export default function PatientReviewDashboard() {
         : { opacity: 1, transform: "none" };
 
   const deferOptions = [
-    ...DEFER_LABELS.map((label) => ({
+    ...DEFER_QUICK_OPTIONS.map(({ label, days }) => ({
       label,
-      onSelect: () =>
-        setDecision("deferred", `Flagged for follow-up in ${label} · patient will continue current regimen`),
+      onSelect: () => handleDeferQuick(label, days),
     })),
     { label: "Other…", onSelect: () => setDeferShowCalendar(true) },
   ];
@@ -190,12 +345,19 @@ export default function PatientReviewDashboard() {
         </nav>
         <div className="flex items-center gap-3">
           <div className="text-right leading-tight">
-            <div className="text-[13px] font-semibold">Dr. Elena Voss, MD</div>
-            <div className="text-[11px] text-[#8798A8]">Neurology</div>
+            <div className="text-[13px] font-semibold">{clinicianName}</div>
+            <div className="text-[11px] text-[#8798A8]">{clinicianSpecialty}</div>
           </div>
           <div className="flex size-9 items-center justify-center rounded-full bg-[#E3EFFA] text-[13px] font-semibold text-[#2468B4]">
-            EV
+            {clinicianInitials}
           </div>
+          <button
+            type="button"
+            onClick={handleSignOut}
+            className="text-xs font-semibold text-[#51677C] hover:text-[#10243D]"
+          >
+            Sign out
+          </button>
         </div>
       </header>
 
@@ -280,12 +442,19 @@ export default function PatientReviewDashboard() {
                 </div>
                 <button
                   type="button"
-                  onClick={() => setDecisionState(null)}
-                  className="rounded-full border bg-transparent px-4 py-[7px] text-[13px] font-semibold"
+                  onClick={handleUndo}
+                  disabled={submitting}
+                  className="rounded-full border bg-transparent px-4 py-[7px] text-[13px] font-semibold disabled:opacity-60"
                   style={{ borderColor: decision.border, color: decision.color }}
                 >
                   Undo
                 </button>
+              </div>
+            )}
+
+            {apiError && (
+              <div className="rounded-2xl border border-[#F2CFCC] bg-[#FBEDEC] px-5 py-3 text-sm font-medium text-[#C2453B]">
+                {apiError}
               </div>
             )}
 
@@ -411,8 +580,9 @@ export default function PatientReviewDashboard() {
                     <div className="flex flex-wrap items-center gap-3">
                       <button
                         type="button"
-                        onClick={() => setDecision("approved")}
-                        className={`${pillButton} bg-[#10243D] px-7.5 py-3.5 text-sm text-white hover:bg-[#1C3959]`}
+                        onClick={handleApprove}
+                        disabled={submitting}
+                        className={`${pillButton} bg-[#10243D] px-7.5 py-3.5 text-sm text-white hover:bg-[#1C3959] disabled:opacity-60`}
                       >
                         Approve recommendation
                       </button>
@@ -422,7 +592,8 @@ export default function PatientReviewDashboard() {
                           setModifying(true);
                           setDraft({ ...rec });
                         }}
-                        className="rounded-full border border-[#10243D] bg-white px-5.5 py-3 text-sm font-semibold text-[#10243D] transition-colors hover:bg-[#F7F6F2]"
+                        disabled={submitting}
+                        className="rounded-full border border-[#10243D] bg-white px-5.5 py-3 text-sm font-semibold text-[#10243D] transition-colors hover:bg-[#F7F6F2] disabled:opacity-60"
                       >
                         Modify dose
                       </button>
@@ -434,7 +605,8 @@ export default function PatientReviewDashboard() {
                             setDeferShowCalendar(false);
                             setCalMonthOffset(0);
                           }}
-                          className="rounded-full border border-[#D6D3C9] bg-white px-5.5 py-3 text-sm font-semibold text-[#10243D] transition-colors hover:border-[#10243D]"
+                          disabled={submitting}
+                          className="rounded-full border border-[#D6D3C9] bg-white px-5.5 py-3 text-sm font-semibold text-[#10243D] transition-colors hover:border-[#10243D] disabled:opacity-60"
                         >
                           Defer
                         </button>
@@ -489,14 +661,8 @@ export default function PatientReviewDashboard() {
                                       <button
                                         key={i}
                                         type="button"
-                                        disabled={c.disabled}
-                                        onClick={() =>
-                                          !c.disabled &&
-                                          setDecision(
-                                            "deferred",
-                                            `Flagged for follow-up on ${formatDate(c.date as Date)} · patient will continue current regimen`,
-                                          )
-                                        }
+                                        disabled={c.disabled || submitting}
+                                        onClick={() => !c.disabled && handleDeferDate(c.date as Date)}
                                         className="aspect-square rounded-lg text-[12.5px] hover:bg-[#EAF3FB]"
                                         style={{
                                           background: c.isToday ? "#EDF4FC" : "transparent",
@@ -519,8 +685,9 @@ export default function PatientReviewDashboard() {
                                   <button
                                     key={opt.label}
                                     type="button"
+                                    disabled={submitting}
                                     onClick={opt.onSelect}
-                                    className="w-full rounded-[9px] px-2.5 py-3 text-left text-sm font-medium text-[#24384E] hover:bg-[#F1EFEA]"
+                                    className="w-full rounded-[9px] px-2.5 py-3 text-left text-sm font-medium text-[#24384E] hover:bg-[#F1EFEA] disabled:opacity-60"
                                   >
                                     {opt.label}
                                   </button>
@@ -535,10 +702,11 @@ export default function PatientReviewDashboard() {
                       <div className="relative inline-block">
                         <button
                           type="button"
-                          onClick={advanceToNextPatient}
+                          onClick={handleDecline}
+                          disabled={submitting}
                           onMouseEnter={() => setDeclineTipOpen(true)}
                           onMouseLeave={() => setDeclineTipOpen(false)}
-                          className="rounded-full border-[1.5px] border-[#C2453B] bg-transparent px-5.5 py-3 text-sm font-semibold text-[#C2453B] transition-colors hover:bg-[#FBEDEC]"
+                          className="rounded-full border-[1.5px] border-[#C2453B] bg-transparent px-5.5 py-3 text-sm font-semibold text-[#C2453B] transition-colors hover:bg-[#FBEDEC] disabled:opacity-60"
                         >
                           Decline
                         </button>
@@ -553,7 +721,11 @@ export default function PatientReviewDashboard() {
                   <div className="mt-5.5 flex items-center gap-2.5 border-t border-[#F0EEE8] pt-4">
                     <PharmacyIcon />
                     <span className="text-[13px] text-[#6E8091]">
-                      Pharmacy on file · <span className="font-medium text-[#24384E]">CVS Pharmacy #1016, Palo Alto, CA</span>
+                      Pharmacy on file ·{" "}
+                      <span className="font-medium text-[#24384E]">
+                        {cur.pharmacyName ?? "No pharmacy on file"}
+                        {cur.pharmacyAddress ? `, ${cur.pharmacyAddress}` : ""}
+                      </span>
                     </span>
                   </div>
                 </div>
