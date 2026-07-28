@@ -6,13 +6,7 @@ export default function Footer() {
   return (
     <footer className="border-t border-coralum-navy/10">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-6 py-10 text-center sm:flex-row sm:flex-wrap sm:justify-between sm:text-left">
-        <Image
-          src="/images/coralum-logo.png"
-          alt="Coralum"
-          width={31}
-          height={28}
-          className="opacity-60"
-        />
+
 
         <div className="flex flex-wrap items-center justify-center gap-5 sm:gap-7">
           <Link href="/privacy" className="font-body text-sm text-coralum-slate hover:text-coralum-navy">

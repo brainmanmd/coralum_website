@@ -18,8 +18,8 @@ export default function WaitlistPage() {
             <Image
               src="/images/coralum-logo.png"
               alt="Coralum"
-              width={35}
-              height={32}
+              width={120}
+              height={36}
             />
           </Link>
           <Link
