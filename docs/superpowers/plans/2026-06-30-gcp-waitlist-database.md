@@ -1,6 +1,6 @@
 # GCP Cloud SQL Waitlist Database Plan
 
-This note captures the current direction for the waitlist persistence layer: move the waitlist storage from the earlier Supabase-backed flow to a managed Postgres database in Google Cloud Platform.
+This note captures the current direction for the waitlist persistence layer: move the waitlist storage from the previous hosted Postgres flow to a managed Postgres database in Google Cloud Platform.
 
 ## Goal
 

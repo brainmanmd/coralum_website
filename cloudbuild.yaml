@@ -25,7 +25,7 @@ steps:
 substitutions:
   _AR_REPOSITORY: us-central1-docker.pkg.dev/$PROJECT_ID/coralum-repo
   _SERVICE_NAME: coralum-prod
-  _REGION: us-central1
+  _REGION: us-west2
   _POSTGRES_URL: ""
   _SESSION_SECRET: ""
 options:

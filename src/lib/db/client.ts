@@ -6,11 +6,11 @@ import * as schema from './schema';
 // `prepare: false` is required behind transaction-mode poolers (PgBouncer),
 // which do not support prepared statements.
 //
-// Cloud SQL on Cloud Run connects over a unix socket. postgres.js only
-// treats the host as a socket path when it is passed via the options
-// object with a leading '/', so a `?host=/cloudsql/...` query parameter in
-// POSTGRES_URL is translated here instead of being handed to the URL parser
-// (which would silently fall back to localhost:5432).
+// GCP Cloud SQL can be reached over a unix socket. postgres.js only treats
+// the host as a socket path when it is passed via the options object with a
+// leading '/', so a `?host=/cloudsql/...` query parameter in POSTGRES_URL is
+// translated here instead of being handed to the URL parser (which would
+// silently fall back to localhost:5432).
 function createClient() {
   const raw = process.env.POSTGRES_URL;
   if (!raw) {
