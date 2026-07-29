@@ -1,0 +1,32 @@
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - -t
+      - $_AR_REPOSITORY/$_SERVICE_NAME:$COMMIT_SHA
+      - .
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - $_AR_REPOSITORY/$_SERVICE_NAME:$COMMIT_SHA
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args:
+      - run
+      - services
+      - update
+      - $_SERVICE_NAME
+      - --image=$_AR_REPOSITORY/$_SERVICE_NAME:$COMMIT_SHA
+      - --region=$_REGION
+      - --platform=managed
+      - --allow-unauthenticated
+      - --set-env-vars=POSTGRES_URL=$_POSTGRES_URL,SESSION_SECRET=$_SESSION_SECRET
+      - --project=$_PROJECT_ID
+substitutions:
+  _AR_REPOSITORY: us-central1-docker.pkg.dev/$PROJECT_ID/coralum-repo
+  _SERVICE_NAME: coralum-prod
+  _REGION: us-central1
+  _POSTGRES_URL: ""
+  _SESSION_SECRET: ""
+options:
+  substitution_option: ALLOW_LOOSE

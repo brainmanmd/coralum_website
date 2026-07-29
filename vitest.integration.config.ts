@@ -11,9 +11,8 @@ Object.assign(process.env, loadEnv("development", process.cwd(), ""));
 
 if (!process.env.POSTGRES_URL) {
   throw new Error(
-    "POSTGRES_URL is not set. Run `npx vercel env pull .env.local` " +
-      "(or otherwise populate .env.local with POSTGRES_URL) before running " +
-      "the integration suite: npm run test:integration"
+    "POSTGRES_URL is not set. Populate .env.local or your shell environment " +
+      "with POSTGRES_URL before running the integration suite: npm run test:integration"
   );
 }
 

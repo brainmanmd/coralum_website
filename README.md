@@ -18,7 +18,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load the app’s font assets for the containerized deployment.
 
 ## OAuth provider setup
 
@@ -64,8 +64,16 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Deploy to Google Cloud Run
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This repository is prepared for a containerized deployment on Google Cloud Run via Cloud Build.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Recommended flow:
+
+1. Build the container image from the included [Dockerfile](Dockerfile).
+2. Push the image to Artifact Registry or Google Container Registry.
+3. Deploy the image to Cloud Run with the service name, region, and environment variables configured in your GCP project.
+
+A Cloud Build configuration is included at [cloudbuild.yaml](cloudbuild.yaml) so pushes to the configured branches can build and deploy the app automatically.
+
+For local development, provide a PostgreSQL connection string through `POSTGRES_URL` and run the app as usual.

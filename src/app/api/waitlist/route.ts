@@ -9,7 +9,7 @@ import {
   validateWaitlistDateOfBirth,
 } from '@/lib/waitlist/validation';
 
-// Node.js runtime: drizzle-orm/vercel-postgres needs the pg connection pool,
+// Node.js runtime: the Postgres client needs a full Node.js runtime,
 // which isn't available on the Edge runtime.
 export const runtime = 'nodejs';
 // Mutating route — never cache or statically optimize this handler.
