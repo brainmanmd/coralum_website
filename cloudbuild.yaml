@@ -1,34 +1,44 @@
+# Cloud Build pipeline for the Coralum marketing site (coralum.ai).
+#
+# Builds the Next.js standalone image, pushes it to Artifact Registry, and
+# deploys a new Cloud Run revision of the live service.
+#
+# Secrets (POSTGRES_URL, SESSION_SECRET) are pulled from Secret Manager at
+# deploy time via --set-secrets. They are NEVER passed as build substitutions
+# or plaintext env vars: substitutions land in the trigger config and build
+# logs, so a DB URL or session secret there would be a leak. The Cloud SQL
+# instance is attached so the app reaches Postgres over the unix socket.
 steps:
   - name: gcr.io/cloud-builders/docker
     args:
       - build
       - -t
-      - $_AR_REPOSITORY/$_SERVICE_NAME:$COMMIT_SHA
+      - $_AR_REPOSITORY/$_IMAGE:$COMMIT_SHA
       - .
   - name: gcr.io/cloud-builders/docker
     args:
       - push
-      - $_AR_REPOSITORY/$_SERVICE_NAME:$COMMIT_SHA
+      - $_AR_REPOSITORY/$_IMAGE:$COMMIT_SHA
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: gcloud
     args:
       - run
-      - services
-      - update
+      - deploy
       - $_SERVICE_NAME
-      - --image=$_AR_REPOSITORY/$_SERVICE_NAME:$COMMIT_SHA
+      - --image=$_AR_REPOSITORY/$_IMAGE:$COMMIT_SHA
       - --region=$_REGION
       - --platform=managed
       - --allow-unauthenticated
-      - --set-env-vars=POSTGRES_URL=$_POSTGRES_URL,SESSION_SECRET=$_SESSION_SECRET
-      - --project=$_PROJECT_ID
+      - --set-secrets=POSTGRES_URL=coralum-web-postgres-url:latest,SESSION_SECRET=coralum-web-session-secret:latest
+      - --add-cloudsql-instances=$_CLOUDSQL_INSTANCE
+      - --project=$PROJECT_ID
+images:
+  - $_AR_REPOSITORY/$_IMAGE:$COMMIT_SHA
 substitutions:
-  _AR_REPOSITORY: us-central1-docker.pkg.dev/$PROJECT_ID/coralum-repo
-  _SERVICE_NAME: coralum-prod
-  _REGION: us-west2
-  _POSTGRES_URL: ""
-  _SESSION_SECRET: ""
+  _AR_REPOSITORY: us-west1-docker.pkg.dev/$PROJECT_ID/web
+  _IMAGE: site
+  _SERVICE_NAME: coralum-web
+  _REGION: us-west1
+  _CLOUDSQL_INSTANCE: project-406848c1-1274-4d12-826:us-west1:coralum-web-db
 options:
-  
-  substitution_option: ALLOW_LOOSE
-  logging: CLOUD_LOGGING_ONLY  
+  logging: CLOUD_LOGGING_ONLY
