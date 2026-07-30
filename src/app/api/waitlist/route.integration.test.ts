@@ -4,7 +4,7 @@ import { POST } from './route';
 import { db } from '@/lib/db/client';
 import { waitlistSignups } from '@/lib/db/schema';
 
-const TEST_EMAIL = 'integration-test@coralum.care';
+const TEST_EMAIL = 'integration-test@coralum.ai';
 
 describe('POST /api/waitlist (integration, requires live POSTGRES_URL)', () => {
   afterAll(async () => {

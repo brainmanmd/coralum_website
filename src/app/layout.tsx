@@ -30,17 +30,21 @@ const dmMono = DM_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://coralum.ai"),
-  title: "Coralum — Better Parkinson's Care Between Visits",
+  title: "Parkinson's Care Between Visits: Telehealth & Symptom Support | Coralum",
   description:
-    "Coralum helps people with Parkinson's stay supported between doctor visits — lightweight tracking, proactive care, and fewer surprises. Join the waitlist.",
+    "Coralum is specialist-designed telehealth for Parkinson's disease — track symptoms, understand day-to-day changes, and get proactive support between neurology visits. Join the waitlist.",
   keywords: [
-    "Parkinson's care",
-    "Parkinson's disease",
-    "Parkinson's support",
-    "digital health",
+    "Parkinson's disease care",
+    "Parkinson's telehealth",
+    "neurology telehealth",
+    "symptom tracking",
+    "symptom management",
+    "motor fluctuations",
+    "movement disorder care",
+    "neurodegenerative disease support",
     "remote patient monitoring",
     "care between visits",
-    "movement disorder",
+    "virtual neurology care",
     "caregiver support",
   ],
   authors: [{ name: "Coralum" }],
@@ -61,9 +65,9 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://coralum.ai",
-    title: "Coralum — Better Parkinson's Care Between Visits",
+    title: "Parkinson's Care Between Visits — Telehealth & Symptom Support | Coralum",
     description:
-      "Lightweight support between doctor visits, built to help people with Parkinson's live better. Join the waitlist.",
+      "Specialist-designed telehealth for Parkinson's disease. Track symptoms and get proactive support between neurology visits. Join the waitlist.",
     siteName: "Coralum",
     images: [
       {
@@ -76,13 +80,17 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Coralum — Better Parkinson's Care Between Visits",
+    title: "Parkinson's Care Between Visits — Telehealth & Symptom Support | Coralum",
     description:
-      "Lightweight support between doctor visits, built to help people with Parkinson's live better.",
+      "Specialist-designed telehealth for Parkinson's disease. Track symptoms and get proactive support between neurology visits.",
     images: ["/og-image.png"],
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
+      { url: "/icon-512.png", type: "image/png", sizes: "512x512" },
+    ],
     apple: "/apple-icon.png",
   },
   manifest: "/manifest.json",
@@ -92,7 +100,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
-  themeColor: "#059669",
+  themeColor: "#16243b",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -103,12 +111,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script type="application/ld+json" suppressHydrationWarning>
           {JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "Organization",
+            "@type": ["Organization", "MedicalBusiness"],
             name: "Coralum",
             url: "https://coralum.ai",
             logo: "https://coralum.ai/images/coralum-logo.png",
             description:
-              "Coralum helps people with Parkinson's stay supported between doctor visits with lightweight tracking and proactive care.",
+              "Coralum is specialist-designed telehealth for Parkinson's disease, helping people track symptoms and get proactive support between neurology visits.",
+            medicalSpecialty: "Neurologic",
           })}
         </script>
       </head>
