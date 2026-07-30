@@ -3,4 +3,4 @@ Allow: /
 Disallow: /api/
 Disallow: /admin/
 
-Sitemap: https://coralum.care/sitemap.xml
+Sitemap: https://coralum.ai/sitemap.xml

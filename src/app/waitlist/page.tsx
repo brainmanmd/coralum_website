@@ -7,6 +7,32 @@ export const metadata = {
   title: 'Join the Waitlist | Coralum',
   description:
     "Sign up for Coralum's waitlist to be among the first to experience AI-enabled care for Parkinson's Disease.",
+  alternates: {
+    canonical: '/waitlist',
+  },
+  openGraph: {
+    type: 'website',
+    url: 'https://coralum.ai/waitlist',
+    title: 'Join the Waitlist | Coralum',
+    description:
+      "Be among the first to experience AI-enabled care for Parkinson's Disease. Join the Coralum waitlist.",
+    siteName: 'Coralum',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: "Coralum — Closing the Parkinson's Care Loop",
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Join the Waitlist | Coralum',
+    description:
+      "Be among the first to experience AI-enabled care for Parkinson's Disease.",
+    images: ['/og-image.png'],
+  },
 };
 
 export default function WaitlistPage() {

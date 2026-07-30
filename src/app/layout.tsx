@@ -29,23 +29,26 @@ const dmMono = DM_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://coralum.care"),
-  title: "Coralum Care - Digital Health Platform",
+  metadataBase: new URL("https://coralum.ai"),
+  title: "Coralum — Better Parkinson's Care Between Visits",
   description:
-    "Connect your wearable devices to Coralum Care for personalized health insights. Track sleep, recovery, and wellness metrics from Oura, Whoop, Fitbit, Apple Health, Google Health, and Samsung Health.",
+    "Coralum helps people with Parkinson's stay supported between doctor visits — lightweight tracking, proactive care, and fewer surprises. Join the waitlist.",
   keywords: [
-    "health app",
-    "wearable integration",
+    "Parkinson's care",
+    "Parkinson's disease",
+    "Parkinson's support",
     "digital health",
-    "wellness tracking",
-    "fitness data",
-    "oura",
-    "whoop",
-    "fitbit",
+    "remote patient monitoring",
+    "care between visits",
+    "movement disorder",
+    "caregiver support",
   ],
-  authors: [{ name: "Coralum Care" }],
-  creator: "Coralum Care",
-  publisher: "Coralum Care",
+  authors: [{ name: "Coralum" }],
+  creator: "Coralum",
+  publisher: "Coralum",
+  alternates: {
+    canonical: "/",
+  },
   robots: {
     index: true,
     follow: true,
@@ -57,15 +60,26 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://coralum.care",
-    title: "Coralum Care - Digital Health Platform",
-    description: "Connect your wearable devices for personalized health insights.",
-    siteName: "Coralum Care",
+    url: "https://coralum.ai",
+    title: "Coralum — Better Parkinson's Care Between Visits",
+    description:
+      "Lightweight support between doctor visits, built to help people with Parkinson's live better. Join the waitlist.",
+    siteName: "Coralum",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Coralum — Closing the Parkinson's Care Loop",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Coralum Care",
-    description: "Connect your wearable devices for personalized health insights.",
+    title: "Coralum — Better Parkinson's Care Between Visits",
+    description:
+      "Lightweight support between doctor visits, built to help people with Parkinson's live better.",
+    images: ["/og-image.png"],
   },
   icons: {
     icon: "/favicon.ico",
@@ -86,19 +100,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
-        <link rel="canonical" href="https://coralum.care" />
         <script type="application/ld+json" suppressHydrationWarning>
           {JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "WebApplication",
-            name: "Coralum Care",
-            description: "Digital health platform for wearable device integration",
-            applicationCategory: "HealthAndFitnessApplication",
-            offers: {
-              "@type": "Offer",
-              price: "0",
-              priceCurrency: "USD",
-            },
+            "@type": "Organization",
+            name: "Coralum",
+            url: "https://coralum.ai",
+            logo: "https://coralum.ai/images/coralum-logo.png",
+            description:
+              "Coralum helps people with Parkinson's stay supported between doctor visits with lightweight tracking and proactive care.",
           })}
         </script>
       </head>
