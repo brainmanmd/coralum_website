@@ -35,7 +35,7 @@ steps:
 images:
   - $_AR_REPOSITORY/$_IMAGE:$COMMIT_SHA
 substitutions:
-  _AR_REPOSITORY: us-west1-docker.pkg.dev/$PROJECT_ID/web
+  _AR_REPOSITORY: us-west1-docker.pkg.dev/project-406848c1-1274-4d12-826/web
   _IMAGE: site
   _SERVICE_NAME: coralum-web
   _REGION: us-west1
