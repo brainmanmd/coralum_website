@@ -94,6 +94,9 @@ export const metadata: Metadata = {
     apple: "/apple-icon.png",
   },
   manifest: "/manifest.json",
+  verification: {
+    google: "CM9_ftxmw_ePLvPUq90_CYnQzRkveGWsWelE_o-LXuQ",
+  },
 };
 
 export const viewport: Viewport = {
@@ -111,13 +114,25 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script type="application/ld+json" suppressHydrationWarning>
           {JSON.stringify({
             "@context": "https://schema.org",
-            "@type": ["Organization", "MedicalBusiness"],
+            "@type": "MedicalOrganization",
             name: "Coralum",
             url: "https://coralum.ai",
             logo: "https://coralum.ai/images/coralum-logo.png",
             description:
               "Coralum is specialist-designed telehealth for Parkinson's disease, helping people track symptoms and get proactive support between neurology visits.",
             medicalSpecialty: "Neurologic",
+            knowsAbout: [
+              "Parkinson's disease",
+              "Movement disorders",
+              "Neurodegenerative disease",
+              "Telehealth",
+              "Remote patient monitoring",
+              "Caregiver support",
+            ],
+            founder: [
+              { "@type": "Physician", name: "Kevin Cyr, MD" },
+              { "@type": "Person", name: "Julian Salazar" },
+            ],
           })}
         </script>
       </head>
