@@ -22,13 +22,13 @@ export default function Nav() {
         </Link>
 
         <nav className="hidden items-center gap-7 md:flex">
-          <a href="#how-it-works" className="font-body text-sm text-coralum-slate transition hover:text-coralum-navy">
+          <a href="/#how-it-works" className="font-body text-sm text-coralum-slate transition hover:text-coralum-navy">
             How it works
           </a>
           <Link href="/waitlist" className="font-body text-sm text-coralum-slate transition hover:text-coralum-navy">
             Join Waitlist
           </Link>
-          <a href="#team" className="font-body text-sm text-coralum-slate transition hover:text-coralum-navy">
+          <a href="/#team" className="font-body text-sm text-coralum-slate transition hover:text-coralum-navy">
             Meet the Team
           </a>
         </nav>
@@ -56,14 +56,14 @@ export default function Nav() {
         <nav className="border-t border-coralum-navy/[0.06] px-6 py-4 md:hidden">
           <div className="flex flex-col gap-4">
             <a
-              href="#how-it-works"
+              href="/#how-it-works"
               onClick={() => setIsOpen(false)}
               className="font-body text-sm text-coralum-slate transition hover:text-coralum-navy"
             >
               How it works
             </a>
             <a
-              href="#team"
+              href="/#team"
               onClick={() => setIsOpen(false)}
               className="font-body text-sm text-coralum-slate transition hover:text-coralum-navy"
             >
