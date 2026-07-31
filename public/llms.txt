@@ -1,0 +1,21 @@
+# Coralum
+
+> Coralum is specialist-designed telehealth for Parkinson's disease. It helps people with Parkinson's and their caregivers stay supported between neurology visits through symptom tracking and proactive care.
+
+Coralum is a digital health company focused on closing the "care loop" for Parkinson's disease — the long gaps between neurology appointments where symptoms change and problems go unnoticed. The platform helps patients and caregivers track symptoms, understand day-to-day changes, and get proactive support, so care teams have better information and patients have fewer surprises.
+
+Coralum was developed by clinicians, in collaboration with the Stanford Mussallem Center for Biodesign, and is backed by 2048 Ventures. The product is currently in pre-launch with an open waitlist.
+
+## Key pages
+- [Home](https://coralum.ai): What Coralum is and how it helps people with Parkinson's between visits.
+- [Join the waitlist](https://coralum.ai/waitlist): Sign up for early access to Coralum.
+
+## Topics Coralum covers
+- Parkinson's disease care and telehealth
+- Symptom tracking and monitoring between neurology visits
+- Motor fluctuations and medication "wearing off" / "off" episodes
+- Caregiver support for Parkinson's
+- Remote patient monitoring for neurodegenerative conditions
+
+## Contact
+- Website: https://coralum.ai

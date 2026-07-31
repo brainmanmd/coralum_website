@@ -1,6 +1,49 @@
+# Coralum — https://coralum.ai
+# Search engines and AI assistants are welcome to crawl public pages.
+# Private app areas are disallowed below.
+
 User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /admin/
+Disallow: /dashboard/
+
+# --- AI search / citation crawlers -------------------------------------------
+# These bots let ChatGPT, Perplexity, Google AI, Claude, and Apple *cite*
+# Coralum in their answers. We explicitly welcome them (GEO strategy).
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# --- Optional: block AI *training* crawlers (Midi Health does this) -----------
+# Uncomment the lines below to keep the citation bots above while preventing
+# your content from being used to train AI models. Trade-off: less brand
+# presence inside the models themselves. Safe to change later.
+# User-agent: GPTBot
+# Disallow: /
+# User-agent: CCBot
+# Disallow: /
+# User-agent: Bytespider
+# Disallow: /
 
 Sitemap: https://coralum.ai/sitemap.xml
