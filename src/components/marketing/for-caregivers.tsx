@@ -1,7 +1,12 @@
 import Link from 'next/link';
 import { ArrowRightIcon } from './icons';
+import MedicareBadge from './medicare-badge';
 
-export default function ForCaregivers() {
+export default function ForCaregivers({
+  showMedicareBadge = false,
+}: {
+  showMedicareBadge?: boolean;
+}) {
   return (
     <section className="border-t border-coralum-navy/10 py-28">
       <div className="mx-auto max-w-6xl px-6">
@@ -23,6 +28,11 @@ export default function ForCaregivers() {
                 appointment. Join the waitlist to be among the first patients
                 and caregivers to try it.
               </p>
+              {showMedicareBadge && (
+                <div className="mt-6">
+                  <MedicareBadge />
+                </div>
+              )}
             </div>
 
             <Link
