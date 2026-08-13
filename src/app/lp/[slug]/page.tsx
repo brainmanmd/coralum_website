@@ -63,7 +63,7 @@ export default async function AdLandingPage({
           steps={page.steps}
         />
         <ForCaregivers showMedicareBadge />
-        <TrustBar />
+        <TrustBar showVentureBacker={false} />
       </main>
       <Footer />
       <div className="h-20 sm:hidden" aria-hidden="true" />

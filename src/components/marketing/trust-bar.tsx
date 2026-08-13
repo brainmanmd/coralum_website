@@ -1,6 +1,10 @@
 import Image from 'next/image';
 
-export default function TrustBar() {
+export default function TrustBar({
+  showVentureBacker = true,
+}: {
+  showVentureBacker?: boolean;
+}) {
   return (
     <section className="border-y border-coralum-navy/10 bg-white py-12">
       <div className="mx-auto max-w-6xl px-6">
@@ -23,14 +27,18 @@ export default function TrustBar() {
             height={68}
             className="h-9 w-auto opacity-80 sm:h-12"
           />
-          <span className="hidden h-10 w-px bg-coralum-navy/10 sm:block" />
-          <Image
-            src="/images/partners/2048-ventures.png"
-            alt="2048 Ventures"
-            width={68}
-            height={68}
-            className="h-9 w-auto opacity-80 sm:h-12"
-          />
+          {showVentureBacker && (
+            <>
+              <span className="hidden h-10 w-px bg-coralum-navy/10 sm:block" />
+              <Image
+                src="/images/partners/2048-ventures.png"
+                alt="2048 Ventures"
+                width={68}
+                height={68}
+                className="h-9 w-auto opacity-80 sm:h-12"
+              />
+            </>
+          )}
         </div>
       </div>
     </section>
