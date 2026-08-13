@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRightIcon, CloseIcon, MenuIcon } from './icons';
 
-export default function Nav() {
+export default function Nav({ minimal = false }: { minimal?: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -28,9 +28,11 @@ export default function Nav() {
           <Link href="/waitlist" className="font-body text-sm text-coralum-slate transition hover:text-coralum-navy">
             Join Waitlist
           </Link>
-          <a href="#team" className="font-body text-sm text-coralum-slate transition hover:text-coralum-navy">
-            Meet the Team
-          </a>
+          {!minimal && (
+            <a href="#team" className="font-body text-sm text-coralum-slate transition hover:text-coralum-navy">
+              Meet the Team
+            </a>
+          )}
         </nav>
 
         <Link
@@ -62,13 +64,15 @@ export default function Nav() {
             >
               How it works
             </a>
-            <a
-              href="#team"
-              onClick={() => setIsOpen(false)}
-              className="font-body text-sm text-coralum-slate transition hover:text-coralum-navy"
-            >
-              Meet the Team
-            </a>
+            {!minimal && (
+              <a
+                href="#team"
+                onClick={() => setIsOpen(false)}
+                className="font-body text-sm text-coralum-slate transition hover:text-coralum-navy"
+              >
+                Meet the Team
+              </a>
+            )}
             <div className="mt-2 border-t border-coralum-navy/10 pt-4">
               <Link
                 href="/waitlist"
