@@ -28,7 +28,7 @@ export default function AdHero({
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4 sm:mt-10">
           <a
             href="#how-it-works"
-            className="hidden rounded-full border border-coralum-navy/10 px-7 py-3.5 font-body text-sm font-medium text-coralum-navy transition hover:bg-white sm:inline-flex"
+            className="rounded-full border border-coralum-navy/10 px-7 py-3.5 font-body text-sm font-medium text-coralum-navy transition hover:bg-white"
           >
             How it works
           </a>
