@@ -33,6 +33,27 @@ export async function generateMetadata({
     title: page.title,
     description: page.description,
     robots: { index: false, follow: false },
+    openGraph: {
+      type: 'website',
+      url: `https://coralum.ai/lp/${page.slug}`,
+      title: page.title,
+      description: page.description,
+      siteName: 'Coralum',
+      images: [
+        {
+          url: '/og-image.png',
+          width: 1200,
+          height: 630,
+          alt: "Coralum — Closing the Parkinson's Care Loop",
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: page.title,
+      description: page.description,
+      images: ['/og-image.png'],
+    },
   };
 }
 
