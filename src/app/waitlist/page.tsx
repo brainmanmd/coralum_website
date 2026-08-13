@@ -4,9 +4,35 @@ import WaitlistForm from '@/components/waitlist/waitlist-form';
 import { ChevronLeftIcon } from '@/components/marketing/icons';
 
 export const metadata = {
-  title: 'Join the Waitlist | Coralum',
+  title: "Join the Waitlist: Telehealth for Parkinson's Care | Coralum",
   description:
-    "Sign up for Coralum's waitlist to be among the first to experience AI-enabled care for Parkinson's Disease.",
+    "Be among the first to experience Coralum — specialist-designed telehealth for Parkinson's disease, with symptom tracking and proactive support between neurology visits.",
+  alternates: {
+    canonical: '/waitlist',
+  },
+  openGraph: {
+    type: 'website',
+    url: 'https://coralum.ai/waitlist',
+    title: "Join the Waitlist: Telehealth for Parkinson's Care | Coralum",
+    description:
+      "Be among the first to experience specialist-designed telehealth for Parkinson's disease. Join the Coralum waitlist.",
+    siteName: 'Coralum',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: "Coralum — Closing the Parkinson's Care Loop",
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Join the Waitlist | Coralum',
+    description:
+      "Be among the first to experience AI-enabled care for Parkinson's Disease.",
+    images: ['/og-image.png'],
+  },
 };
 
 export default function WaitlistPage() {

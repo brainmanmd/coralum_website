@@ -29,23 +29,30 @@ const dmMono = DM_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://coralum.care"),
-  title: "Coralum Care - Digital Health Platform",
+  metadataBase: new URL("https://coralum.ai"),
+  title: "Parkinson's Care Between Visits: Telehealth & Symptom Support | Coralum",
   description:
-    "Connect your wearable devices to Coralum Care for personalized health insights. Track sleep, recovery, and wellness metrics from Oura, Whoop, Fitbit, Apple Health, Google Health, and Samsung Health.",
+    "Coralum is specialist-designed telehealth for Parkinson's disease — track symptoms, understand day-to-day changes, and get proactive support between neurology visits. Join the waitlist.",
   keywords: [
-    "health app",
-    "wearable integration",
-    "digital health",
-    "wellness tracking",
-    "fitness data",
-    "oura",
-    "whoop",
-    "fitbit",
+    "Parkinson's disease care",
+    "Parkinson's telehealth",
+    "neurology telehealth",
+    "symptom tracking",
+    "symptom management",
+    "motor fluctuations",
+    "movement disorder care",
+    "neurodegenerative disease support",
+    "remote patient monitoring",
+    "care between visits",
+    "virtual neurology care",
+    "caregiver support",
   ],
-  authors: [{ name: "Coralum Care" }],
-  creator: "Coralum Care",
-  publisher: "Coralum Care",
+  authors: [{ name: "Coralum" }],
+  creator: "Coralum",
+  publisher: "Coralum",
+  alternates: {
+    canonical: "/",
+  },
   robots: {
     index: true,
     follow: true,
@@ -57,28 +64,46 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://coralum.care",
-    title: "Coralum Care - Digital Health Platform",
-    description: "Connect your wearable devices for personalized health insights.",
-    siteName: "Coralum Care",
+    url: "https://coralum.ai",
+    title: "Parkinson's Care Between Visits — Telehealth & Symptom Support | Coralum",
+    description:
+      "Specialist-designed telehealth for Parkinson's disease. Track symptoms and get proactive support between neurology visits. Join the waitlist.",
+    siteName: "Coralum",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Coralum — Closing the Parkinson's Care Loop",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Coralum Care",
-    description: "Connect your wearable devices for personalized health insights.",
+    title: "Parkinson's Care Between Visits — Telehealth & Symptom Support | Coralum",
+    description:
+      "Specialist-designed telehealth for Parkinson's disease. Track symptoms and get proactive support between neurology visits.",
+    images: ["/og-image.png"],
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
+      { url: "/icon-512.png", type: "image/png", sizes: "512x512" },
+    ],
     apple: "/apple-icon.png",
   },
   manifest: "/manifest.json",
+  verification: {
+    google: "CM9_ftxmw_ePLvPUq90_CYnQzRkveGWsWelE_o-LXuQ",
+  },
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
-  themeColor: "#059669",
+  themeColor: "#16243b",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -86,19 +111,28 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
-        <link rel="canonical" href="https://coralum.care" />
         <script type="application/ld+json" suppressHydrationWarning>
           {JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "WebApplication",
-            name: "Coralum Care",
-            description: "Digital health platform for wearable device integration",
-            applicationCategory: "HealthAndFitnessApplication",
-            offers: {
-              "@type": "Offer",
-              price: "0",
-              priceCurrency: "USD",
-            },
+            "@type": "MedicalOrganization",
+            name: "Coralum",
+            url: "https://coralum.ai",
+            logo: "https://coralum.ai/images/coralum-logo.png",
+            description:
+              "Coralum is specialist-designed telehealth for Parkinson's disease, helping people track symptoms and get proactive support between neurology visits.",
+            medicalSpecialty: "Neurologic",
+            knowsAbout: [
+              "Parkinson's disease",
+              "Movement disorders",
+              "Neurodegenerative disease",
+              "Telehealth",
+              "Remote patient monitoring",
+              "Caregiver support",
+            ],
+            founder: [
+              { "@type": "Physician", name: "Kevin Cyr, MD" },
+              { "@type": "Person", name: "Julian Salazar" },
+            ],
           })}
         </script>
       </head>
