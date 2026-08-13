@@ -61,7 +61,7 @@ export default async function AdLandingPage({
           heroImageAlt={page.heroImageAlt}
           steps={page.steps}
         />
-        <ForCaregivers />
+        <ForCaregivers showMedicareBadge />
         <TrustBar />
       </main>
       <Footer />

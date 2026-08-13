@@ -23,8 +23,8 @@ export default function AdHowItWorks({
           <Image
             src={heroImage}
             alt={heroImageAlt}
-            width={415}
-            height={468}
+            width={1245}
+            height={1404}
             className="h-auto w-full object-cover"
           />
         </div>
