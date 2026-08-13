@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Lora, DM_Sans, DM_Mono } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -142,6 +143,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       >
         {children}
       </body>
+      <GoogleAnalytics gaId="G-X4315S7K98" />
     </html>
   );
 }

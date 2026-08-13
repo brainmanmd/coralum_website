@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { sendGAEvent } from '@next/third-parties/google';
 import { ArrowRightIcon, CheckIcon, CheckSmallIcon } from '@/components/marketing/icons';
 import { PARKINSONS_DURATION_OPTIONS } from '@/lib/waitlist/validation';
 
@@ -192,6 +193,11 @@ export default function WaitlistForm() {
         setLoading(false);
         return;
       }
+
+      sendGAEvent('event', 'waitlist_signup', {
+        joining_as: form.joiningAs,
+        landing_page: window.location.pathname,
+      });
 
       setCompleted(true);
     } catch {
