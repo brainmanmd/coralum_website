@@ -17,18 +17,18 @@ export default function AdHero({
       <div className="pointer-events-none absolute -left-24 top-24 size-72 rounded-full bg-coralum-blue opacity-10 blur-[80px]" />
 
       <div className="relative mx-auto flex max-w-4xl flex-col items-center px-6 text-center">
-        <h1 className="font-serif text-5xl tracking-tight text-coralum-navy sm:text-6xl">
+        <h1 className="font-serif text-3xl tracking-tight text-coralum-navy sm:text-5xl lg:text-6xl">
           {headingPlain} <span className="text-coralum-blue">{headingHighlight}</span>
         </h1>
 
-        <p className="mt-5 max-w-2xl font-serif text-xl italic text-coralum-navy/70 sm:text-2xl">
+        <p className="mt-5 max-w-2xl font-serif text-lg italic text-coralum-navy/70 sm:text-xl lg:text-2xl">
           {subhead}
         </p>
 
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-4 sm:mt-10">
           <a
             href="#how-it-works"
-            className="rounded-full border border-coralum-navy/10 px-7 py-3.5 font-body text-sm font-medium text-coralum-navy transition hover:bg-white"
+            className="hidden rounded-full border border-coralum-navy/10 px-7 py-3.5 font-body text-sm font-medium text-coralum-navy transition hover:bg-white sm:inline-flex"
           >
             How it works
           </a>
@@ -41,7 +41,7 @@ export default function AdHero({
           </Link>
         </div>
 
-        <div className="mt-10">
+        <div className="mt-8 sm:mt-10">
           <MedicareBadge />
         </div>
       </div>
