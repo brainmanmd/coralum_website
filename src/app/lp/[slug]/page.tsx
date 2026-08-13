@@ -7,6 +7,7 @@ import AdHowItWorks from '@/components/marketing/ad-how-it-works';
 import ForCaregivers from '@/components/marketing/for-caregivers';
 import TrustBar from '@/components/marketing/trust-bar';
 import MobileStickyCta from '@/components/marketing/mobile-sticky-cta';
+import ScrollDepthTracker from '@/components/marketing/scroll-depth-tracker';
 import { adLandingPages, getAdLandingPage } from '@/lib/landing/ads';
 
 // Ad landing pages are only ever linked directly from ad creative — new
@@ -89,6 +90,7 @@ export default async function AdLandingPage({
       <Footer />
       <div className="h-20 sm:hidden" aria-hidden="true" />
       <MobileStickyCta />
+      <ScrollDepthTracker />
     </>
   );
 }
