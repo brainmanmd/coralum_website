@@ -16,10 +16,13 @@ describe('POST /api/waitlist (integration, requires live POSTGRES_URL)', () => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        full_name: 'Integration Test',
+        joining_as: 'patient',
+        patient_name: 'Integration Test',
         email: TEST_EMAIL,
         date_of_birth: '1990-01-01',
         zip_code: '94301',
+        parkinsons_duration: '1-3 years',
+        uses_wearable: false,
         contact_consent: true,
         beta_consent: false,
       }),
@@ -34,7 +37,7 @@ describe('POST /api/waitlist (integration, requires live POSTGRES_URL)', () => {
       .where(eq(waitlistSignups.email, TEST_EMAIL));
 
     expect(rows).toHaveLength(1);
-    expect(rows[0].fullName).toBe('Integration Test');
+    expect(rows[0].patientName).toBe('Integration Test');
     expect(rows[0].contactConsent).toBe(true);
   });
 });
