@@ -4,6 +4,8 @@ export const PARKINSONS_DURATION_OPTIONS = [
   '3-5 years',
   '5-10 years',
   'More than 10 years',
+  'Have not been diagnosed',
+  'Unsure',
   'Prefer not to say',
 ] as const;
 
