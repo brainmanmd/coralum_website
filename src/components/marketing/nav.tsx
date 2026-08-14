@@ -3,10 +3,13 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { ArrowRightIcon, CloseIcon, MenuIcon } from './icons';
 
 export default function Nav({ minimal = false }: { minimal?: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+  const waitlistHref = `/waitlist?source=${encodeURIComponent(pathname)}`;
 
   return (
     <header className="sticky top-0 z-50 border-b border-coralum-navy/[0.06] bg-coralum-cream/90 backdrop-blur">
@@ -25,7 +28,7 @@ export default function Nav({ minimal = false }: { minimal?: boolean }) {
           <a href="#how-it-works" className="font-body text-sm text-coralum-slate transition hover:text-coralum-navy">
             How it works
           </a>
-          <Link href="/waitlist" className="font-body text-sm text-coralum-slate transition hover:text-coralum-navy">
+          <Link href={waitlistHref} className="font-body text-sm text-coralum-slate transition hover:text-coralum-navy">
             Join Waitlist
           </Link>
           {!minimal && (
@@ -36,7 +39,7 @@ export default function Nav({ minimal = false }: { minimal?: boolean }) {
         </nav>
 
         <Link
-          href="/waitlist"
+          href={waitlistHref}
           className="hidden items-center gap-2 rounded-full bg-coralum-navy px-5 py-2 font-body text-sm font-medium text-white transition hover:bg-coralum-navy/90 md:flex"
         >
           Join the Waitlist
@@ -75,7 +78,7 @@ export default function Nav({ minimal = false }: { minimal?: boolean }) {
             )}
             <div className="mt-2 border-t border-coralum-navy/10 pt-4">
               <Link
-                href="/waitlist"
+                href={waitlistHref}
                 onClick={() => setIsOpen(false)}
                 className="flex items-center justify-center gap-2 rounded-full bg-coralum-navy px-5 py-2.5 font-body text-sm font-medium text-white transition hover:bg-coralum-navy/90"
               >

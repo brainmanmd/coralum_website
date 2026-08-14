@@ -36,7 +36,7 @@ export default function Hero() {
             How it works
           </a>
           <Link
-            href="/waitlist"
+            href="/waitlist?source=%2F"
             className="flex items-center gap-2.5 rounded-full bg-coralum-navy px-7 py-3.5 font-body text-sm font-medium text-white transition hover:bg-coralum-navy/90"
           >
             Join the Waitlist
