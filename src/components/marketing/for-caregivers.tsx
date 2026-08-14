@@ -4,8 +4,10 @@ import MedicareBadge from './medicare-badge';
 
 export default function ForCaregivers({
   showMedicareBadge = false,
+  source = '/',
 }: {
   showMedicareBadge?: boolean;
+  source?: string;
 }) {
   return (
     <section className="border-t border-coralum-navy/10 py-28">
@@ -36,7 +38,7 @@ export default function ForCaregivers({
             </div>
 
             <Link
-              href="/waitlist"
+              href={`/waitlist?source=${encodeURIComponent(source)}`}
               className="flex w-full shrink-0 items-center justify-center gap-2 rounded-full bg-white px-6 py-3 font-body text-sm font-medium text-coralum-navy transition hover:bg-white/90 sm:w-auto"
             >
               Join the Waitlist

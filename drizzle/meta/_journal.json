@@ -29,6 +29,13 @@
       "when": 1786632101437,
       "tag": "0003_add_waitlist_role_and_health_fields",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1786724985324,
+      "tag": "0004_add_waitlist_source",
+      "breakpoints": true
     }
   ]
 }

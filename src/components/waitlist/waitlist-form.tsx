@@ -126,7 +126,7 @@ function TextField({
   );
 }
 
-export default function WaitlistForm() {
+export default function WaitlistForm({ source }: { source: string }) {
   const [form, setForm] = useState<FormState>(initialState);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -183,6 +183,7 @@ export default function WaitlistForm() {
           wearable_device: form.usesWearable ? form.wearableDevice : undefined,
           contact_consent: form.contactConsent,
           beta_consent: form.betaConsent,
+          source,
         }),
       });
 
@@ -196,7 +197,7 @@ export default function WaitlistForm() {
 
       sendGAEvent('event', 'waitlist_signup', {
         joining_as: form.joiningAs,
-        landing_page: window.location.pathname,
+        landing_page: source,
       });
 
       setCompleted(true);

@@ -27,6 +27,7 @@ export const waitlistSignups = pgTable(
     wearableDevice: varchar('wearable_device', { length: 255 }),
     contactConsent: boolean('contact_consent').notNull(),
     betaConsent: boolean('beta_consent').notNull(),
+    source: varchar('source', { length: 500 }),
     createdAt: timestamp('created_at').defaultNow().notNull(),
   },
   (table) => ({
