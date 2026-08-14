@@ -33,6 +33,7 @@ export async function POST(request: NextRequest) {
       wearable_device,
       contact_consent,
       beta_consent,
+      source,
     } = body;
 
     if (!joining_as || !patient_name || !email || !date_of_birth || !zip_code || !parkinsons_duration) {
@@ -144,6 +145,7 @@ export async function POST(request: NextRequest) {
       wearableDevice: uses_wearable ? wearable_device : null,
       contactConsent: true,
       betaConsent: beta_consent === true,
+      source: typeof source === 'string' ? source.slice(0, 500) : null,
     });
 
     return NextResponse.json({ success: true }, { status: 200 });

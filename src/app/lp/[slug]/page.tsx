@@ -70,6 +70,8 @@ export default async function AdLandingPage({
     notFound();
   }
 
+  const source = `/lp/${page.slug}`;
+
   return (
     <>
       <Nav minimal />
@@ -78,18 +80,19 @@ export default async function AdLandingPage({
           headingPlain={page.headingPlain}
           headingHighlight={page.headingHighlight}
           subhead={page.subhead}
+          source={source}
         />
         <AdHowItWorks
           heroImage={page.heroImage}
           heroImageAlt={page.heroImageAlt}
           steps={page.steps}
         />
-        <ForCaregivers showMedicareBadge />
+        <ForCaregivers showMedicareBadge source={source} />
         <TrustBar showVentureBacker={false} />
       </main>
       <Footer />
       <div className="h-20 sm:hidden" aria-hidden="true" />
-      <MobileStickyCta />
+      <MobileStickyCta source={source} />
       <ScrollDepthTracker />
     </>
   );

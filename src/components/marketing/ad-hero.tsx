@@ -6,10 +6,12 @@ export default function AdHero({
   headingPlain,
   headingHighlight,
   subhead,
+  source,
 }: {
   headingPlain: string;
   headingHighlight: string;
   subhead: string;
+  source: string;
 }) {
   return (
     <section className="relative overflow-hidden bg-[radial-gradient(ellipse_at_50%_30%,rgba(131,188,169,0.14),rgba(66,94,85,0.07)_35%,transparent_70%)] py-24">
@@ -33,7 +35,7 @@ export default function AdHero({
             How it works
           </a>
           <Link
-            href="/waitlist"
+            href={`/waitlist?source=${encodeURIComponent(source)}`}
             className="flex items-center gap-2.5 rounded-full bg-coralum-navy px-7 py-3.5 font-body text-sm font-medium text-white transition hover:bg-coralum-navy/90"
           >
             Join the Waitlist

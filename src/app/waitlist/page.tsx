@@ -35,7 +35,13 @@ export const metadata = {
   },
 };
 
-export default function WaitlistPage() {
+export default async function WaitlistPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ source?: string }>;
+}) {
+  const { source } = await searchParams;
+
   return (
     <main className="flex min-h-screen flex-col bg-coralum-cream">
       <header className="border-b border-coralum-navy/10 bg-white/80">
@@ -59,7 +65,7 @@ export default function WaitlistPage() {
       </header>
 
       <div className="flex flex-1 flex-col items-center px-6 py-12">
-        <WaitlistForm />
+        <WaitlistForm source={source ?? 'direct'} />
       </div>
 
       <div className="h-1 w-full bg-coralum-navy/10">

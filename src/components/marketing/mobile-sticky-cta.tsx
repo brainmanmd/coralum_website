@@ -8,7 +8,7 @@ import { ArrowRightIcon } from './icons';
 // doesn't duplicate a button that's already on screen.
 const SCROLL_THRESHOLD = 420;
 
-export default function MobileStickyCta() {
+export default function MobileStickyCta({ source }: { source: string }) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function MobileStickyCta() {
       }`}
     >
       <Link
-        href="/waitlist"
+        href={`/waitlist?source=${encodeURIComponent(source)}`}
         className="flex w-full items-center justify-center gap-2.5 rounded-full bg-coralum-navy px-7 py-3.5 font-body text-sm font-medium text-white transition hover:bg-coralum-navy/90"
       >
         Join the Waitlist
