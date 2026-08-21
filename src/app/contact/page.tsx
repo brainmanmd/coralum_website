@@ -17,8 +17,9 @@ export default function ContactPage() {
         <div className="mx-auto max-w-3xl px-6 py-24 text-center">
           <h1 className="font-serif text-4xl text-coralum-navy">Get in touch</h1>
           <p className="mt-4 font-body text-base leading-relaxed text-coralum-slate">
-            Questions about Coralum, the waitlist, or anything else? We&apos;d love to
-            hear from you.
+            We&apos;re always glad to hear from you — whether it&apos;s a question
+            about Coralum, a partnership idea, or a Parkinson&apos;s story
+            you&apos;d like to share.
           </p>
           <a
             href="mailto:hello@coralum.ai"
