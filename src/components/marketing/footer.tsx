@@ -8,12 +8,6 @@ export default function Footer() {
 
 
         <div className="flex flex-wrap items-center justify-center gap-5 sm:gap-7">
-          <Link href="/privacy" className="font-body text-sm text-coralum-slate hover:text-coralum-navy">
-            Privacy
-          </Link>
-          <Link href="/terms" className="font-body text-sm text-coralum-slate hover:text-coralum-navy">
-            Terms
-          </Link>
           <Link href="/contact" className="font-body text-sm text-coralum-slate hover:text-coralum-navy">
             Contact
           </Link>
