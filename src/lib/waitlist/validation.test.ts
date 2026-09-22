@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { validateEmail, validateFullName } from './validation';
+import { validateEmail, validateFullName, validateState } from './validation';
 
 describe('validateEmail', () => {
   it('accepts a valid email', () => {
@@ -38,5 +38,23 @@ describe('validateFullName', () => {
 
   it('rejects whitespace-only string', () => {
     expect(validateFullName('   ')).toBe(false);
+  });
+});
+
+describe('validateState', () => {
+  it('accepts a valid state name', () => {
+    expect(validateState('California')).toBe(true);
+  });
+
+  it('accepts the District of Columbia', () => {
+    expect(validateState('District of Columbia')).toBe(true);
+  });
+
+  it('rejects an abbreviation', () => {
+    expect(validateState('CA')).toBe(false);
+  });
+
+  it('rejects empty string', () => {
+    expect(validateState('')).toBe(false);
   });
 });
