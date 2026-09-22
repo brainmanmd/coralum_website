@@ -267,7 +267,7 @@ export default function WaitlistLandingForm({ source }: { source: string }) {
           }}
         >
           We use your details to tell you when Coralum opens and, if you tick the box, to send
-          updates. Nothing else. <a href="#questions">Privacy notice</a>
+          updates. Nothing else. <a href="/privacy">Privacy notice</a>
         </p>
       </div>
     </form>

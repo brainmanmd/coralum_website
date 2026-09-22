@@ -1083,11 +1083,13 @@ function WaitlistFooter() {
           >
             LinkedIn
           </a>
-          {/* Privacy policy content hasn't been reviewed yet — placeholder text,
-              same as the design and the existing site, until it's ready to link. */}
-          <span style={{ display: 'flex', alignItems: 'center', minHeight: 44, color: 'var(--slate)' }}>
-            Privacy policy [placeholder]
-          </span>
+          <Link
+            href="/privacy"
+            className="cor-h7"
+            style={{ display: 'flex', alignItems: 'center', minHeight: 44, color: 'var(--slate)', textDecoration: 'none' }}
+          >
+            Privacy policy
+          </Link>
         </div>
         <div
           style={{

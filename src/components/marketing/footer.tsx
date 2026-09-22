@@ -11,6 +11,9 @@ export default function Footer() {
           <Link href="/contact" className="font-body text-sm text-coralum-slate hover:text-coralum-navy">
             Contact
           </Link>
+          <Link href="/privacy" className="font-body text-sm text-coralum-slate hover:text-coralum-navy">
+            Privacy policy
+          </Link>
           <a
             href="https://www.linkedin.com/company/coralumhealth/"
             target="_blank"
