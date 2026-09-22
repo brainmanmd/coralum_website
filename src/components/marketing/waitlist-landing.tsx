@@ -906,7 +906,7 @@ const FAQ_GROUPS = [
     label: 'Your neurologist and cost',
     items: [
       {
-        q: 'Do I have to leave my neurologist?',
+        q: 'Do I have to leave my current doctor?',
         a: "No. Coralum works between your neurologist's appointments, not instead of them. Before each visit, your neurologist receives a summary of what changed.",
       },
       {
@@ -931,7 +931,7 @@ const FAQ_GROUPS = [
         a: 'Check-ins are based on your needs and a personalized care plan, quick and frequent, a few minutes on your phone or tablet. Your care team reviews these year-round, not only before your next appointment, and reaches out if something needs attention.',
       },
       {
-        q: 'Can I reach out if I have a question or concern about Parkinson\'s?',
+        q: 'Can I reach out if I have a question or concern?',
         a: 'Yes. You can message our care team any time, and a clinician will get back to you. For emergencies, contact your local emergency services right away.',
       },
       {
@@ -944,8 +944,8 @@ const FAQ_GROUPS = [
     label: 'The app, your family, your information',
     items: [
       {
-        q: 'Is this an AI?',
-        a: "Coralum is a clinical team supported by an AI companion. The companion checks in with you to see how you're doing and is available any time you have a question about Parkinson's. Our clinical team reviews what it finds and connects with you directly to discuss any treatment recommendations, not the AI companion.",
+        q: 'What is the purpose of the AI?',
+        a: "Coralum clinical teams are supported by an AI companion. The companion proactively checks in with you, monitors for changes, answers questions, and creates a diary that logs your individual journey with Parkinson's Disease. This way you don't have to keep repeating the same story over and over. Our clinical team reviews your interactions with the AI companion and then connects with you directly to discuss any treatment recommendations, not the AI companion.",
       },
       {
         q: 'I have a tremor. Can I use it?',
@@ -957,7 +957,7 @@ const FAQ_GROUPS = [
       },
       {
         q: 'Who can see my information?',
-        a: 'You, the care team looking after you, and anyone you choose to share it with. Coralum is a HIPAA covered entity. Your information is not sold, and it is not used to train other companies\' software.',
+        a: 'You, the care team looking after you, and anyone you choose to share it with. Coralum is a HIPAA covered entity. Your information is not sold, and it is not used by other companies to train their models.',
       },
     ],
   },
