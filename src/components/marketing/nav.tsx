@@ -3,13 +3,11 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { ArrowRightIcon, CloseIcon, MenuIcon } from './icons';
 
 export default function Nav({ minimal = false }: { minimal?: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
-  const pathname = usePathname();
-  const waitlistHref = `/waitlist?source=${encodeURIComponent(pathname)}`;
+  const waitlistHref = '/#waitlist';
 
   return (
     <header className="sticky top-0 z-50 border-b border-coralum-navy/[0.06] bg-coralum-cream/90 backdrop-blur">
