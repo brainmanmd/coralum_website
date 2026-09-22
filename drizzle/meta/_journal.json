@@ -40,8 +40,8 @@
     {
       "idx": 5,
       "version": "7",
-      "when": 1790110313392,
-      "tag": "0005_add_simplified_waitlist_form",
+      "when": 1790114293267,
+      "tag": "0005_simplify_waitlist_form",
       "breakpoints": true
     }
   ]

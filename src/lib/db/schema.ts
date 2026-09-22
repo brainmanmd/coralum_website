@@ -15,26 +15,10 @@ export const waitlistSignups = pgTable(
   'waitlist_signups',
   {
     id: serial('id').primaryKey(),
-    // Full name, from the redesigned waitlist form (2026-09). Earlier signups
-    // split this into patientName/caregiverName by role; the new form asks
-    // once, for whoever is filling it out.
-    fullName: varchar('full_name', { length: 255 }),
+    fullName: varchar('full_name', { length: 255 }).notNull(),
     email: varchar('email', { length: 255 }).notNull(),
-    state: varchar('state', { length: 50 }),
-    testingInterest: boolean('testing_interest'),
-    // Everything below is from the earlier role-based form. Made optional
-    // rather than dropped, so the ~existing rows stay intact; the current
-    // form no longer collects any of it.
-    joiningAs: varchar('joining_as', { length: 20 }),
-    patientName: varchar('patient_name', { length: 255 }),
-    caregiverName: varchar('caregiver_name', { length: 255 }),
-    dateOfBirth: date('date_of_birth'),
-    zipCode: varchar('zip_code', { length: 20 }),
-    insuranceProvider: varchar('insurance_provider', { length: 255 }),
-    parkinsonsDuration: varchar('parkinsons_duration', { length: 50 }),
-    usesWearable: boolean('uses_wearable'),
-    wearableDevice: varchar('wearable_device', { length: 255 }),
-    betaConsent: boolean('beta_consent'),
+    state: varchar('state', { length: 50 }).notNull(),
+    testingInterest: boolean('testing_interest').notNull().default(false),
     contactConsent: boolean('contact_consent').notNull(),
     source: varchar('source', { length: 500 }),
     createdAt: timestamp('created_at').defaultNow().notNull(),

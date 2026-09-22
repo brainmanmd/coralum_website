@@ -1,5 +1,5 @@
 {
-  "id": "68b18428-a7e7-48c8-af7e-4d3673c8302c",
+  "id": "1534165e-f626-42dc-a0d2-2a80b8eae945",
   "prevId": "69ebde46-63c7-46df-9247-4139fc364de1",
   "version": "7",
   "dialect": "postgresql",
@@ -541,7 +541,7 @@
           "name": "full_name",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "email": {
           "name": "email",
@@ -553,73 +553,14 @@
           "name": "state",
           "type": "varchar(50)",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "testing_interest": {
           "name": "testing_interest",
           "type": "boolean",
           "primaryKey": false,
-          "notNull": false
-        },
-        "joining_as": {
-          "name": "joining_as",
-          "type": "varchar(20)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "patient_name": {
-          "name": "patient_name",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "caregiver_name": {
-          "name": "caregiver_name",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "date_of_birth": {
-          "name": "date_of_birth",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "zip_code": {
-          "name": "zip_code",
-          "type": "varchar(20)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "insurance_provider": {
-          "name": "insurance_provider",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "parkinsons_duration": {
-          "name": "parkinsons_duration",
-          "type": "varchar(50)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "uses_wearable": {
-          "name": "uses_wearable",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "wearable_device": {
-          "name": "wearable_device",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "beta_consent": {
-          "name": "beta_consent",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": false
+          "notNull": true,
+          "default": false
         },
         "contact_consent": {
           "name": "contact_consent",
