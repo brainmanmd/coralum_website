@@ -3,13 +3,11 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { ArrowRightIcon, CloseIcon, MenuIcon } from './icons';
 
 export default function Nav({ minimal = false }: { minimal?: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
-  const pathname = usePathname();
-  const waitlistHref = `/waitlist?source=${encodeURIComponent(pathname)}`;
+  const waitlistHref = '/#waitlist';
 
   return (
     <header className="sticky top-0 z-50 border-b border-coralum-navy/[0.06] bg-coralum-cream/90 backdrop-blur">
@@ -25,16 +23,16 @@ export default function Nav({ minimal = false }: { minimal?: boolean }) {
         </Link>
 
         <nav className="hidden items-center gap-7 md:flex">
-          <a href="#how-it-works" className="font-body text-sm text-coralum-slate transition hover:text-coralum-navy">
+          <Link href="/#how-it-works" className="font-body text-sm text-coralum-slate transition hover:text-coralum-navy">
             How it works
-          </a>
+          </Link>
           <Link href={waitlistHref} className="font-body text-sm text-coralum-slate transition hover:text-coralum-navy">
             Join Waitlist
           </Link>
           {!minimal && (
-            <a href="#team" className="font-body text-sm text-coralum-slate transition hover:text-coralum-navy">
+            <Link href="/#team" className="font-body text-sm text-coralum-slate transition hover:text-coralum-navy">
               Meet the Team
-            </a>
+            </Link>
           )}
         </nav>
 
@@ -60,21 +58,21 @@ export default function Nav({ minimal = false }: { minimal?: boolean }) {
       {isOpen && (
         <nav className="border-t border-coralum-navy/[0.06] px-6 py-4 md:hidden">
           <div className="flex flex-col gap-4">
-            <a
-              href="#how-it-works"
+            <Link
+              href="/#how-it-works"
               onClick={() => setIsOpen(false)}
               className="font-body text-sm text-coralum-slate transition hover:text-coralum-navy"
             >
               How it works
-            </a>
+            </Link>
             {!minimal && (
-              <a
-                href="#team"
+              <Link
+                href="/#team"
                 onClick={() => setIsOpen(false)}
                 className="font-body text-sm text-coralum-slate transition hover:text-coralum-navy"
               >
                 Meet the Team
-              </a>
+              </Link>
             )}
             <div className="mt-2 border-t border-coralum-navy/10 pt-4">
               <Link

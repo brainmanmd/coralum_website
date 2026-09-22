@@ -36,6 +36,13 @@
       "when": 1786724985324,
       "tag": "0004_add_waitlist_source",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1790114293267,
+      "tag": "0005_simplify_waitlist_form",
+      "breakpoints": true
     }
   ]
 }

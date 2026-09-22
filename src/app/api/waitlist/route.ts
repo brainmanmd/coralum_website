@@ -2,14 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { eq } from 'drizzle-orm';
 import { db } from '@/lib/db/client';
 import { waitlistSignups } from '@/lib/db/schema';
-import {
-  validateEmail,
-  validateFullName,
-  validateZipCode,
-  validateWaitlistDateOfBirth,
-  validateJoiningAs,
-  validateParkinsonsDuration,
-} from '@/lib/waitlist/validation';
+import { validateEmail, validateFullName, validateState } from '@/lib/waitlist/validation';
 
 // Node.js runtime: the Postgres client needs a full Node.js runtime,
 // which isn't available on the Edge runtime.
@@ -20,49 +13,18 @@ export const dynamic = 'force-dynamic';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const {
-      joining_as,
-      patient_name,
-      caregiver_name,
-      email,
-      date_of_birth,
-      zip_code,
-      insurance_provider,
-      parkinsons_duration,
-      uses_wearable,
-      wearable_device,
-      contact_consent,
-      beta_consent,
-      source,
-    } = body;
+    const { full_name, email, state, contact_consent, testing_interest, source } = body;
 
-    if (!joining_as || !patient_name || !email || !date_of_birth || !zip_code || !parkinsons_duration) {
+    if (!full_name || !email || !state) {
       return NextResponse.json(
-        {
-          error:
-            "Role, patient name, email, date of birth, ZIP code, and Parkinson's duration are required",
-        },
+        { error: 'Name, email, and state are required' },
         { status: 400 }
       );
     }
 
-    if (!validateJoiningAs(joining_as)) {
+    if (!validateFullName(full_name)) {
       return NextResponse.json(
-        { error: 'Invalid role selection' },
-        { status: 400 }
-      );
-    }
-
-    if (!validateFullName(patient_name)) {
-      return NextResponse.json(
-        { error: 'Patient name must be at least 2 characters' },
-        { status: 400 }
-      );
-    }
-
-    if (joining_as === 'caregiver' && !validateFullName(caregiver_name || '')) {
-      return NextResponse.json(
-        { error: 'Your name must be at least 2 characters' },
+        { error: 'Name must be at least 2 characters' },
         { status: 400 }
       );
     }
@@ -74,38 +36,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const dobValidation = validateWaitlistDateOfBirth(date_of_birth);
-    if (!dobValidation.valid) {
+    if (!validateState(state)) {
       return NextResponse.json(
-        { error: dobValidation.error ?? 'Invalid date of birth' },
-        { status: 400 }
-      );
-    }
-
-    if (!validateZipCode(zip_code)) {
-      return NextResponse.json(
-        { error: 'Invalid ZIP / postal code' },
-        { status: 400 }
-      );
-    }
-
-    if (!validateParkinsonsDuration(parkinsons_duration)) {
-      return NextResponse.json(
-        { error: 'Invalid Parkinson\'s duration selection' },
-        { status: 400 }
-      );
-    }
-
-    if (uses_wearable !== true && uses_wearable !== false) {
-      return NextResponse.json(
-        { error: 'Please answer the wearable/smartwatch question' },
-        { status: 400 }
-      );
-    }
-
-    if (uses_wearable === true && !wearable_device) {
-      return NextResponse.json(
-        { error: 'Please tell us which device you use' },
+        { error: 'Please select a state' },
         { status: 400 }
       );
     }
@@ -126,25 +59,15 @@ export async function POST(request: NextRequest) {
       .limit(1);
 
     if (existing.length > 0) {
-      return NextResponse.json(
-        { success: true },
-        { status: 200 }
-      );
+      return NextResponse.json({ success: true }, { status: 200 });
     }
 
     await db.insert(waitlistSignups).values({
-      joiningAs: joining_as,
-      patientName: patient_name,
-      caregiverName: joining_as === 'caregiver' ? caregiver_name : null,
+      fullName: full_name,
       email: normalizedEmail,
-      dateOfBirth: date_of_birth,
-      zipCode: zip_code,
-      insuranceProvider: insurance_provider || null,
-      parkinsonsDuration: parkinsons_duration,
-      usesWearable: uses_wearable,
-      wearableDevice: uses_wearable ? wearable_device : null,
+      state,
       contactConsent: true,
-      betaConsent: beta_consent === true,
+      testingInterest: testing_interest === true,
       source: typeof source === 'string' ? source.slice(0, 500) : null,
     });
 
