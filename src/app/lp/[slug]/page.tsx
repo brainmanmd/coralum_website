@@ -1,13 +1,5 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-import Nav from '@/components/marketing/nav';
-import Footer from '@/components/marketing/footer';
-import AdHero from '@/components/marketing/ad-hero';
-import AdHowItWorks from '@/components/marketing/ad-how-it-works';
-import ForCaregivers from '@/components/marketing/for-caregivers';
-import TrustBar from '@/components/marketing/trust-bar';
-import MobileStickyCta from '@/components/marketing/mobile-sticky-cta';
-import ScrollDepthTracker from '@/components/marketing/scroll-depth-tracker';
+import { notFound, redirect } from 'next/navigation';
 import { adLandingPages, getAdLandingPage } from '@/lib/landing/ads';
 
 // Ad landing pages are only ever linked directly from ad creative — new
@@ -34,30 +26,13 @@ export async function generateMetadata({
     title: page.title,
     description: page.description,
     robots: { index: false, follow: false },
-    openGraph: {
-      type: 'website',
-      url: `https://coralum.ai/lp/${page.slug}`,
-      title: page.title,
-      description: page.description,
-      siteName: 'Coralum',
-      images: [
-        {
-          url: '/og-image.png',
-          width: 1200,
-          height: 630,
-          alt: "Coralum — Closing the Parkinson's Care Loop",
-        },
-      ],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: page.title,
-      description: page.description,
-      images: ['/og-image.png'],
-    },
   };
 }
 
+// Ad landing pages are paused for the waitlist redesign: send anyone who
+// still has one of these links to the homepage instead of a dead end. The
+// page content and lib/landing/ads.ts entries are left in place to bring
+// back later rather than rebuild from scratch.
 export default async function AdLandingPage({
   params,
 }: {
@@ -70,30 +45,5 @@ export default async function AdLandingPage({
     notFound();
   }
 
-  const source = `/lp/${page.slug}`;
-
-  return (
-    <>
-      <Nav minimal />
-      <main>
-        <AdHero
-          headingPlain={page.headingPlain}
-          headingHighlight={page.headingHighlight}
-          subhead={page.subhead}
-          source={source}
-        />
-        <AdHowItWorks
-          heroImage={page.heroImage}
-          heroImageAlt={page.heroImageAlt}
-          steps={page.steps}
-        />
-        <ForCaregivers showMedicareBadge source={source} />
-        <TrustBar showVentureBacker={false} />
-      </main>
-      <Footer />
-      <div className="h-20 sm:hidden" aria-hidden="true" />
-      <MobileStickyCta source={source} />
-      <ScrollDepthTracker />
-    </>
-  );
+  redirect('/');
 }
